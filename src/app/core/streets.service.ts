@@ -3,6 +3,7 @@ import { Headers, Http, Response } from '@angular/http';
 import { Observable }    from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http';
 import { User } from './user'; 
+import { SessionService } from "./session.service";
 import { StreetsUrlService } from "./streets-url.service";
 
 import 'rxjs/add/operator/map';
@@ -11,9 +12,18 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class StreetService {
-  private headers = new Headers({'Authorization': 'Token token="gM7TM10gfRFZBlkNNcqg9A", email="example-2@twaamtaro.org"', 'Content-Type': ' ' });
+  
+  constructor(
+    private http: Http,
+    private urlService: StreetsUrlService,
+    private sessionService: SessionService
+  ) { }
 
-  constructor(private http: Http, private urlService: StreetsUrlService) { }
+  private headers = new Headers({
+    'Authorization':'Token token="'+this.sessionService.getUserToken()+'", email="'+this.sessionService.getLoggedUser().email+'"', 
+    'Content-Type': 'application/json'
+  });
+  
   streetName: any
   
   getStreets(): any {

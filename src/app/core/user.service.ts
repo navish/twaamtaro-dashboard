@@ -2,6 +2,8 @@ import { Injectable }    from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable }    from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+
+import { SessionService } from "./session.service";
 import { User } from './user';
 import { UsersUrlService } from "./users-url.service";
 
@@ -11,10 +13,17 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class UserService {
+  constructor(
+    private http: Http, 
+    private sessionService: SessionService,
+    private urlService: UsersUrlService
+  ) { }
+  private headers = new Headers({
+    'Authorization':'Token token="'+this.sessionService.getUserToken()+'", email="'+this.sessionService.getLoggedUser().email+'"', 
+    'Content-Type': 'application/json'
+  });
 
-  private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http, private urlService: UsersUrlService) { }
   users: User[];
   verifyResponse: any;
   totalRequests: any;

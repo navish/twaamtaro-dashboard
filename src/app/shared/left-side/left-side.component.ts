@@ -24,7 +24,7 @@ export class LeftSideComponent implements OnInit {
   ngOnInit() {
     //Get user's name from session
    if (this.authService.isLoggedIn()) {
-        var theUser = JSON.parse(this.sessionService.getLoggedUser());
+        var theUser = this.sessionService.getLoggedUser();
         this.loggedUser = theUser.first_name + " " + theUser.last_name;
         var theStreet = this.sessionService.getUserStreet();
         //this.userStreet = theStreet.id;

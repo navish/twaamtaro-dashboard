@@ -2,6 +2,7 @@ import { Injectable }    from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable }    from 'rxjs/Observable';
 import { DrainsUrlService } from "./drains-url.service";
+import { SessionService } from "./session.service";
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -11,15 +12,23 @@ import 'rxjs/add/operator/filter';
 
 import { Drain } from './../shared/drains/drain';
 
-
 @Injectable()
 export class DrainsService {
 
-  private headers = new Headers({'Accept': 'application/json', 'charset': 'utf-8'});
-  private headersCustom = new Headers({'Content-Type': 'application/json'});
-  private options: RequestOptions = new RequestOptions({ headers: this.headers });
+  constructor(
+    private http: Http, 
+    private urlService: DrainsUrlService,
+    private sessionService: SessionService
+  ) { }
 
-  constructor(private http: Http, private urlService: DrainsUrlService) { }
+  private headers = new Headers({
+    'Authorization':'Token token="'+this.sessionService.getUserToken()+'", email="'+this.sessionService.getLoggedUser().email+'"', 
+    'Accept': 'application/json', 
+    'charset': 'utf-8', 
+    'Content-Type': 'application/json'
+  });
+  private options: RequestOptions = new RequestOptions({ headers: this.headers });
+  
   drainData: any;
   ranksData: any;
   helpDrains: any;
@@ -102,7 +111,7 @@ export class DrainsService {
 
   update_status(data): any {
 
-    return this.http.post(this.urlService.apiUrl+this.urlService.status, JSON.stringify(data), {headers: this.headersCustom})
+    return this.http.post(this.urlService.apiUrl+this.urlService.status, JSON.stringify(data), {headers: this.headers})
       .map(res => { res.json();
 
       })
@@ -111,7 +120,7 @@ export class DrainsService {
 
   searchNeedHelps(data): Observable<any[]>{
 
-    return this.http.post(this.urlService.apiUrl+this.urlService.search, JSON.stringify(data), {headers: this.headersCustom})
+    return this.http.post(this.urlService.apiUrl+this.urlService.search, JSON.stringify(data), {headers: this.headers})
       .map(res => res.json())
       .catch(this.errorHandler);
   }

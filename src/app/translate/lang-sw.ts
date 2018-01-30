@@ -110,7 +110,7 @@ export const LANG_SW_TRANS = {
   'alert_user': 'Ujumbe wa tahadhari',
   'alert_message': ' Msimu wa mvua umekaribia, wataarifu wananchi wako na pia wahakikishe mitaro yao ni misafi.',
   'send_message': ' chagua aina ya ujumbe unaotaka kuutuma ',
-  'aware_user': 'UJumbe wa kuwa makini',
+  'aware_user': 'Ujumbe wa kuwa makini',
   'awareness_message':'Tuma ujumbe kuwa harifu wananchi wako nini umuhimu wa usafi katika mazingira na pia kuwa makini kwenye swala zima la usafi.',
   'modify': 'Badilisha',
   'send_msg': 'Tuma',
@@ -121,6 +121,9 @@ export const LANG_SW_TRANS = {
   'or': 'Au',
   'no_status': 'Hapana',
   'yes_status': 'Ndiyo',
+  'awareness_msg':'Mitaro hua inajaa uchafu, na uoto asilia wa majani, kumbuka kua ni muhimu kufanya usafi kwenye mitaro iliyo karibu na makazi yako',
+  'alert_msg': ' Msimu wa mvua umekaribia, unakumbushwa kufanya usafi katika mitaro iliyo karibu na makazi yako ili kupunguza uwezekano wa mafuriko',
+  
 
 
   //Reports

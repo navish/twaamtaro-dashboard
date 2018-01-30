@@ -42,10 +42,10 @@
         <div class="w3-col m9 s12">
           <form class="w3-container" id="alertForm">
               <h4>{{'alert_user' | translate}} </h4>
-            <textarea class="w3-input w3-border w3-border-teal" maxlength="100" rows="4" cols="50" wrap="soft" [(ngModel)]="theMsg.msg" name="msg">The rain season is here pleasure ensure that your drains are clean.
+            <textarea class="w3-input w3-border w3-border-teal" maxlength="100" rows="4" cols="50" wrap="soft" [(ngModel)]="alertMsg.msg" name="msg">
             </textarea>
             <br>
-            <button class="w3-right w3-padding w3-btn w3-teal" (click)="sendMessages() ">{{'message_send'| translate}}</button>
+            <button class="w3-right w3-padding w3-btn w3-teal" (click)="sendMessages(alertMsg.msg) ">{{'message_send'| translate}}</button>
           </form>
         </div>
         </div>
@@ -65,10 +65,10 @@
         <div class="w3-col m9 s12">
           <form class="w3-container" id="awarenessForm">
               <h4>{{'aware_user'| translate}} </h4>
-            <textarea class="w3-input w3-border w3-border-teal" maxlength="100" rows="4" cols="50" wrap="soft" [(ngModel)]="theMsg.msg" name="msg">From time to time drains are filled with dirt and overgrowth of grass please clean out your drains from time to time.
+            <textarea class="w3-input w3-border w3-border-teal" maxlength="100" rows="4" cols="50" wrap="soft" [(ngModel)]="awarenessMsg.msg" name="msg">
             </textarea>
             <br>
-            <button class="w3-right w3-padding w3-btn w3-teal" (click)="sendMessages() ">{{'message_send'| translate}}</button>
+            <button class="w3-right w3-padding w3-btn w3-teal" (click)="sendMessages(awarenessMsg.msg) ">{{'message_send'| translate}}</button>
           </form>
         </div>
         </div>

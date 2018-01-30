@@ -105,6 +105,7 @@ export const LANG_EN_TRANS = {
   'send_alert': 'Send alert messages',
   'send_awareness': 'Send awareness messages',
   'veo': 'Send message to VEO',
+  'message_send': 'Send Message',
   'filter': 'Filters',
   'progress': 'Processing',
   'done': 'Done',
@@ -131,8 +132,10 @@ export const LANG_EN_TRANS = {
   'or': 'Or',
   'no_status': 'No',
   'yes_status': 'Yes',
-
- /* Reports */
+  'awareness_msg':'From time to time drains are filled with dirt and overgrowth of grass please clean out your drains from time to time. it is good to clean your drains',
+  'alert_msg':'The rain season is here please ensure that drains around your residence are clean, in order to reduce chances of floods',
+ 
+  /* Reports */
  'report-printing-title':'Drains Cleanliness',
  'general-report-all':'General Cleanness Report in all streets in ',
  'general-report-street': 'General Cleanness Report in ',

@@ -1,7 +1,7 @@
 <div id="content-wrapper" class="content-wrapper" >
   <section class="content">
 
-          <div id="reports" class="box w3-card-2 w3-border w3-border-teal" >
+      <div id="reports" class="box w3-card-2 w3-border w3-border-teal" >
             <div class="box-header with-border">
               <section class="content-header">
                 <h3 class=" w3-center">{{'report' | translate}} </h3>
@@ -24,44 +24,9 @@
                 </div>
               </div>
               <!-- Report Buttons -->
-              <div class="w3-row-padding" >
-                 
-                <form id="reportForm" >
-                  <label><b>{{'location' | translate }}</b></label>
-                  <div class="w3-row-padding">
-                    <div class="w3-col s12 m3">
-                      <select class="w3-select" name="region" [(ngModel)]="region.name" required #regionControl="ngModel">
-                        <option value="" disabled>{{'region'| translate}}</option>
-                        <option value="dsm" selected>Dar es Salaam</option>
-                      </select>
-                    </div>
-                    <div class="w3-col s12 m3">
-                      <select class="w3-select" name="district" [(ngModel)]="district.name" required #districtControl="ngModel">
-                        <option value="" disabled>{{'district' | translate}}/{{'municipal' | translate}}</option>
-                        <option value="kinondoni">Kinondoni</option>
-                        <option value="ilala"disabled>Ilala</option>
-                        <option value="temeke" disabled>Temeke</option>
-                        <option value="kigamboni" disabled>Kigamboni</option>
-                        <option value="ubungo" disabled>Ubungo</option>
-                      </select>
-                    </div>
-                    <div class="w3-col s12 m3">
-                      <select class="w3-select" name="ward" [(ngModel)]="ward.name" required #wardControl="ngModel">
-                        <option value="" disabled>{{'ward'| translate}}</option>
-                        <option value="hananasif" selected>Hananasif</option>
-                      </select>
-                    </div>
-                    <div class="w3-col s12 m3">
-                      <select class="w3-select" name="streetname" [(ngModel)]="streetname.name" required #streetControl="ngModel">
-                          <option value="" disabled selected>{{ 'street' | translate}}</option> 
-                          <option value="all">All</option>
-                        <option *ngFor="let street of (streets)" [value]="street.street.street_name">{{street.street.street_name}}</option>
-                      </select>
-                    </div>
-                    <button (click)="buildReport()" class="w3-btn w3-right w3-block w3-blue w3-section w3-padding" [disabled]="streetControl.invalid || wardControl.invalid || districtControl.invalid || regionControl.invalid">{{'send'| translate}}</button>
-                  </div>
-                 
-                </form>
+              <div class="w3-row-padding" id="reportForm" >
+                <regional-filter (selectedArea)="buildReport($event)"></regional-filter>
+              </div> 
                 <div id="printArea">
                 <div class="w3-row w3-padding-bottom" id="piecanvas">
                    <!-- Pie Chart Canvas -->
@@ -97,17 +62,9 @@
                   </div>
                 </div>
                 </div> <!-- End Print -->
-              </div>
-              <!-- /.row -->
             </div>
             <!-- ./box-body -->
-            <div class="box-footer">
-              <div class="w3-row">
-
-              </div>
-              <!-- /.row -->
-            </div>
-      </div>
-    </section>
-    <!-- /.content -->
+        </div>
+  </section>
+  <!-- /.content -->
 </div>

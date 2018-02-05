@@ -1,0 +1,25 @@
+<form id="reportForm" >
+  <label><b>{{'location' | translate }}</b></label>
+  <div class="w3-row-padding">
+  <div class="w3-col s12 m4">
+    <label>{{'choose_municipal' | translate }}</label>
+    <select  class="w3-select" [ngModel] = "selectedMunicipal" (ngModelChange)= "emitValue($event) " name="municipal">
+      <option  *ngFor=" let municipal of municipals" [ngValue] = "municipal">{{municipal.municipal_name}}</option>
+    </select>
+  </div>
+
+  <div class="w3-col s12 m4">
+    <label>{{'choose_ward' | translate }}</label>
+    <select [disabled] = "disableWardSelect" class="w3-select" [ngModel] = "selectedWard" (ngModelChange)= "emitValue($event)" name="ward" >
+      <option  *ngFor=" let ward of wards" [ngValue] = "ward">{{ward.ward_name}}</option>
+    </select>
+  </div>
+
+  <div class="w3-col s12 m4">
+    <label>{{'choose_street' | translate }}</label>
+    <select [disabled] = "disableStreetSelect" class="w3-select" [ngModel] = "selectedStreet" (ngModelChange)= "emitValue($event)" name="street" >
+        <option  *ngFor=" let street of streets" [ngValue] = "street">{{street.street_name}}</option>
+    </select>
+  </div>
+  </div>
+</form>

@@ -64,6 +64,7 @@ import { YearPickerComponent } from './year-picker/year-picker.component';
 import { DrainsSearchComponent } from './drains/drains-search/drains-search.component';
 import { NeedhelpSearchComponent } from './needhelp-search/needhelp-search.component';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { RegionalFilterComponent } from './filters/regional-filter/regional-filter.component';
 
 @NgModule({
   imports: [
@@ -118,6 +119,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     YearPickerComponent,
     DrainsSearchComponent,
     NeedhelpSearchComponent,
+    RegionalFilterComponent,
   ],
   exports: [SharedComponent],
   providers: [

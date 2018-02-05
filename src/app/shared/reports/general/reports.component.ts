@@ -1,9 +1,11 @@
-
 import { Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
-import { DrainsService } from './../../../core/drains.service';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { NgProgress } from 'ngx-progressbar';
+
+import { DrainsService } from './../../../core/drains.service';
+import { StreetService } from "./../../../core/streets.service";
 import { TranslateService } from "../../../translate/translate.service";
+import { element } from 'protractor';
 
 @Component({
   selector: 'reports',
@@ -12,24 +14,24 @@ import { TranslateService } from "../../../translate/translate.service";
 })
 export class ReportComponent implements OnInit, AfterViewInit{
   title = 'Cleanness Reports';
-  streets: any;
-  region: any = {'name': '' };
-  district: any = {'name': '' };
-  ward: any = {'name': '' };
-  streetname: any = {'name': '' };
+  municipals: any;
   reportBuild = false;
   reportChart: any;
+  streets: any;
+  wards: any;
+
   public translatedText: string;
 
   constructor(
     private drainService: DrainsService,
     public ngProgress: NgProgress,
+    public streetService: StreetService,
     private translateService: TranslateService
   ) { }
 
   public error(event: ChartErrorEvent) {
     event.id = 'PieChartError';
-    event.message = 'There is no suffiecient data to build a pie chart';
+    event.message = 'There is no sufficient data to build a pie chart';
     event.detailedMessage = 'Details about the error';
   }
 
@@ -41,59 +43,33 @@ export class ReportComponent implements OnInit, AfterViewInit{
         this.streets = this.drainService.ranksData;
         this.ngProgress.done();
       });
-
+  }
+  buildReport($event){
+    this.reportBuild = true;
+    if($event.municipal_name != null){
+      console.log("This is "+ $event.municipal_name + " with ID "+ $event.id) 
+    }
+    if($event.ward_name != null){
+      console.log("This is "+ $event.ward_name+ " with ID "+ $event.id)
+    }
+    if($event.street_name != null){
+      this.streetsReport(this.streets,$event.street_name)
+    }  
   }
 
-  buildReport() {
-    this.reportBuild = true;
-    if(this.streetname.name == "all") {
-      var clean = 0;
-      var unclean = 0; 
-      var needHelp = 0;
-      
-       for (let i = 0; i < this.streets.length; i++) {
-        unclean += this.streets[i].details.uncleaned;
-      }
-
-       for (let i = 0; i < this.streets.length; i++) {
-        needHelp += this.streets[i].details.need_help;
-      }
-
-      for (let i = 0; i < this.streets.length; i++) {
-        clean += this.streets[i].details.cleaned;
-      }
-      this.reportChart =  {
-        chartType: 'PieChart',
-        dataTable: [
-          ['Cleanness Feedback', 'Ratio'],
-          [this.translateService.instant('clean'), clean ],
-          [this.translateService.instant('dirty'), unclean ],
-          [this.translateService.instant('need_help'), needHelp],
-        ],
-        options: {
-          'title': this.translateService.instant('general-report-all')+ this.ward.name,
-          pieHole: 0.3,
-          width: 800,
-          height: 500,
-          colors:['#5cb85c','#eea236','#6495ed']
-        },
-      };
-
-    }
-    else {
-
-    this.streets.forEach( street => {
-      if(street.street.street_name == this.streetname.name) {
+  streetsReport(areas,userArea){
+    areas.forEach( area => {
+      if(area.street.street_name == userArea) {
         this.reportChart =  {
           chartType: 'PieChart',
           dataTable: [
             ['Cleanness Feedback', 'Ratio'],
-            [this.translateService.instant('clean'), street.details.cleaned ],
-            [this.translateService.instant('dirty'), street.details.uncleaned ],
-            [this.translateService.instant('need_help'), street.details.need_help],
+            [this.translateService.instant('clean'), area.details.cleaned ],
+            [this.translateService.instant('dirty'), area.details.uncleaned ],
+            [this.translateService.instant('need_help'), area.details.need_help],
           ],
           options: {
-            'title': this.translateService.instant('general-report-street')+ street.street.street_name,
+            'title': this.translateService.instant('general-report-street')+" "+ area.street.street_name,
             pieHole: 0.3,
             width: 800,
             height: 500,
@@ -106,9 +82,9 @@ export class ReportComponent implements OnInit, AfterViewInit{
         };//End ReportChart
       }
     });
-   } //End Else
    this.displayDiv("tablecanvas","show");
-  } //End Build Report Function
+  } //End Build Street Report Function
+
 
   calcPercentage(value,total){
     var percent = (value/total) * 100;
@@ -138,7 +114,7 @@ export class ReportComponent implements OnInit, AfterViewInit{
 
   /*Translations */
   refreshText() {
-    this.buildReport()
+    //this.buildReport()
   }
 
   subscribeToLangChanged() {

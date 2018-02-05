@@ -1,0 +1,5 @@
+@media print {
+    #rePortForm {
+        display: none;
+    }
+}

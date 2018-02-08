@@ -7,7 +7,7 @@
         <!-- /.box-header -->
 
         <div class="box-body">
-            <app-regional-filters [disableWardSelect] ="disableWardSelect" [disableStreetSelect] ="disableStreetSelect" (selectValueChaged)="getFilter($event)"></app-regional-filters>
+            <regional-filter (selectedArea)="filterDrains($event)"></regional-filter>
 
             <div class="row">
                 <div id="error"><h4>{{ErrMsg}}</h4></div>

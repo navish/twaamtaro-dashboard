@@ -53,29 +53,16 @@ export class FilterDrainsComponent implements OnInit {
       this.ngProgress.done();
       });
   }
-  getFilter(data){
-    if(data.from == 'regional-filters'){
-      if(data.municipal_name) this.disableWardSelect = false;
-      if(data.ward_name) this.disableStreetSelect = false;
-
-      this.filterObject.street = data.street_name;
-      this.filterObject.ward = data.ward_name;
-      this.filterObject.municipal = data.municipal_name;
-      
-    }
-    this.filterDrains()
-  }
-  
-  filterDrains(){
+  filterDrains($event){
     this.ngProgress.start()
-      if (this.filterObject.municipal != null) {
-        this.filteredDrains = this.drains.filter((drain) => (this.municipalDrains(drain.municipals,this.filterObject.municipal)))
+      if ($event.municipal_name != null) {
+        this.filteredDrains = this.drains.filter((drain) => (this.municipalDrains(drain.municipals,$event.municipal_name)))
       }
-      else if (this.filterObject.ward != null) {
-        this.filteredDrains = this.drains.filter((drain) => (this.wardDrains(drain.wards,this.filterObject.ward)))
+      else if ($event.ward_name != null) {
+        this.filteredDrains = this.drains.filter((drain) => (this.wardDrains(drain.wards,$event.ward_name)))
       }
-      else if (this.filterObject.street != null) {
-        this.filteredDrains = this.drains.filter((drain) => (this.streetDrains(drain.streets, this.filterObject.street)))
+      else if ($event.street_name != null) {
+        this.filteredDrains = this.drains.filter((drain) => (this.streetDrains(drain.streets, $event.street_name)))
       }
     this.pagedDrains = this.filteredDrains;
     this.ngProgress.done()

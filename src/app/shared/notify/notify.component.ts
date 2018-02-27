@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService} from "./../../core/auth.service";
 import { NgProgress } from 'ngx-progressbar';
 import { SmsService } from "./../../core/sms.service";
+import { TranslateService } from "./../../translate/translate.service";
 
 @Component({
   selector: 'app-notify',
@@ -11,12 +12,16 @@ import { SmsService } from "./../../core/sms.service";
 export class NotifyComponent implements OnInit {
   title: 'Send Mass Notifications';
   
-  theMsg: any = {'msg': '' };
+  theMsg: any = {
+    'alert': 'Msimu wa mvua umekaribia',
+    'awareness': 'Ni muhimu kukumbuka kusafisha mitaro baada ya muda fulani' 
+  };
 
   constructor(
     public authService: AuthService,
+    public ngProgress: NgProgress,
     private smsService: SmsService,
-    public ngProgress: NgProgress
+    private translateService: TranslateService
   ) { }
 
   
@@ -35,10 +40,10 @@ export class NotifyComponent implements OnInit {
   deliveryRes: any;
   statusMsg: any;
 
-  sendMessages() {
+  sendMessages(msg) {
     this.ngProgress.start();
-    console.log(this.theMsg);
-    this.smsService.sendMassMsg(this.theMsg)
+    console.log(msg);
+    this.smsService.sendMassMsg(msg)
       .subscribe(
         res => {
           this.deliveryRes = res;
@@ -49,10 +54,18 @@ export class NotifyComponent implements OnInit {
           }
       });
       this.ngProgress.done();
-}
+  }
+  msgContent(){
+    this.theMsg.alert = this.translateService.instant('alert_msg');
+    this.theMsg.awareness = this.translateService.instant('awareness_msg')
+  }
+  subscribeToLangChanged() {
+    return this.translateService.onLangChanged.subscribe(x => this.msgContent());
+  }
   ngOnInit() {
-      this.hide('alertMsg');
-      this.hide('awarenessMsg');
+    this.hide('alertMsg');
+    this.hide('awarenessMsg');
+    this.subscribeToLangChanged();
   }
 
 }

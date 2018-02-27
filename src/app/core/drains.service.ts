@@ -10,6 +10,8 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/filter';
 
 import { Drain } from './../shared/drains/drain';
+import {NeedHelpUrlParam} from "./user";
+import { of } from 'rxjs/observable/of';
 
 
 @Injectable()
@@ -24,7 +26,7 @@ export class DrainsService {
   ranksData: any;
   helpDrains: any;
   err: any;
-  
+
 
   // gets all drains
   getDrains(page?: number, count?: number): Observable<any> {
@@ -68,11 +70,11 @@ export class DrainsService {
 
   getFilteredHelp(status?) {
     if (status == null ) {
-      
+
       return this.getHelpDetails();
     }
     else {
-     
+
       return this.getHelpDetails()
         .map(drains => drains.find(drain => drain.status === status))
         .catch(this.errorHandler);
@@ -124,12 +126,33 @@ export class DrainsService {
       .catch(this.errorHandler);
   }
 
-  searchNeedHelps(data): Observable<any[]>{
+  filterNeedHelps(data): Observable<any[]>{
 
-    return this.http.post(this.urlService.needHelpSearch, JSON.stringify(data), {headers: this.headersCustom})
+    return this.http.post(this.urlService.needHelpfilter, JSON.stringify(data), {headers: this.headersCustom})
       .map(res => res.json())
       .catch(this.errorHandler);
   }
+
+  searchNeedHelps(data: NeedHelpUrlParam): Observable<any[]>{
+    let urlParams = `/?column=${data.column}&&key=${data.key}`
+    return this.http.get(this.urlService.needHelpSearch + urlParams)
+      .map(res => res.json())
+      .catch(this.errorHandler)
+  }
+
+  searchAutoComplete(q: any): Observable<any>{
+    if (!q.trim()) {
+      // if not search term, return empty hero array.
+      return of();
+    }
+    let urlParam = `/?q=${q}`;
+   return this.http.get(this.urlService.needHelpAutoComplete + urlParam)
+    .map( res => res.json())
+    .catch(this.errorHandler)
+  }
+
+
+
 
   filterDrains(data):any{
     //To be worked on after API updates.

@@ -1,3 +1,4 @@
+import { DataService } from './../core/data.service';
 
 import { CleanDrainComponent } from './drains/clean-drain/clean-drain.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -130,7 +131,8 @@ import { UrlService} from '../core/url.service'
     TranslateService,
     UserService,
     DatePipe,
-    UrlService
+    UrlService,
+    DataService
   ],
 })
 

@@ -1,3 +1,4 @@
+import { DataService } from './../../../core/data.service';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
 import {AuthService} from "./../../../core/auth.service";
@@ -50,7 +51,8 @@ export class HelpDrainComponent implements OnInit {
     public authService: AuthService,
     private pagerService: PagerService,
     public ngProgress: NgProgress,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private dataService: DataService
   ) { }
 
   getDuration(d)
@@ -73,6 +75,7 @@ export class HelpDrainComponent implements OnInit {
       .subscribe(
         drains => {
           this.drains = this.drainService.helpDrains;
+          this.dataService.storeNeedHelpRequests(this.drains);
     this.setPage(1);
     this.ngProgress.done();
     });
@@ -81,7 +84,7 @@ export class HelpDrainComponent implements OnInit {
   // filters need help drains based on their regions(stree,ward, municipal)
   // and Status
   needHelpFilter(data: any){
-    
+
     if(data.from == 'regional-filters'){
       if(data.municipal_name) this.disableWardSelect = false;
       if(data.ward_name) this.disableStreetSelect = false;
@@ -121,7 +124,7 @@ export class HelpDrainComponent implements OnInit {
   //of the need help
   searchNeedHelp(data){
     this.searchInfo = data;
-    this.drainService.searchNeedHelps(data)
+    this.drainService.filterNeedHelps(data)
       .subscribe(res => {
         this.pagedDrains = res
       });
@@ -199,18 +202,29 @@ export class HelpDrainComponent implements OnInit {
   conditionalInitializer(){
     this.needhelp = true;
     this.baseUrl = 'http://twaamtaro.org';
-  
+
     if(this.sessionService.hasRole("meo")){
       this.meoStatusColumn = this.sessionService.hasRole("meo");
     }
     else if(this.sessionService.hasRole("weo")){
-      
+
       this.weoStatusColumn = this.sessionService.hasRole("weo");
     }
 
   }
 
+  // subscribing to need help requests
+  // search results
+  subscribeToSearchResults(){
+    this.dataService.onSearchResultsReady
+    .subscribe( results => {
+      this.pagedDrains = results
+    });
+  }
+
+
   ngOnInit(): void {
+    this.subscribeToSearchResults();
     this.getFilteredDrains();
     this.closedetails();
     this.closemodal();

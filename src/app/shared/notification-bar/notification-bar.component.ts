@@ -58,7 +58,6 @@ constructor(private drainService: DrainsService, private userService: UserServic
 
 
   ngOnInit() {
-    this.getUsers();
     this.summaryInfo();
   }
 

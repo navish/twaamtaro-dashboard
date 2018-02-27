@@ -20,7 +20,9 @@ export class DrainsUrlService {
   public ranksDataUrl = 'drains/ranking';
   public verifyUrl = 'users/verify';
   public status = 'need_helps/status';
+  public filter = 'need_helps/filter';
   public search = 'need_helps/search';
+  public autocomplete = 'need_helps/autocomplete';
 
   // connecting base url with api end points
   public allDrains = this._urlService.baseUrl + this.drainsUrl;
@@ -34,10 +36,12 @@ export class DrainsUrlService {
   public verifyUser = this._urlService.baseUrl + this.verifyUrl;
   public needHelpStatus = this._urlService.baseUrl + this.status;
   public needHelpSearch = this._urlService.baseUrl + this.search;
+  public needHelpfilter = this._urlService.baseUrl + this.filter;
+  public needHelpAutoComplete = this._urlService.baseUrl + this.autocomplete;
 
 
 
-  
+
 
 }
 

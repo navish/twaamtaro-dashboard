@@ -26,15 +26,16 @@ export class CleanDrainComponent implements OnInit {
 
   constructor(private drainService: DrainsService, private pagerService: PagerService, public ngProgress: NgProgress) { }
 
-  cleanDrains(): void {
+  cleanDrains(page?: number): void {
     this.ngProgress.start();
     this.drainService
-        .getCleanDrains()
+        .getCleanDrains(page,this.pagerService.drainCount)
         .subscribe(
-          drains => { 
-            this.drains = drains
-            this.setPage(1);
-            resError=> this.ErrMsg = resError
+          res => { 
+            // get pager object from service
+            this.pager = this.pagerService.getPager(res.total, page, this.pagerService.drainCount);
+            this.drains = res.drains;
+            this.pagedDrains = res.drains;
           this.ngProgress.done();
           }  
         );
@@ -62,15 +63,11 @@ export class CleanDrainComponent implements OnInit {
     if (page < 1 || page > this.pager.totalPages) {
         return;
     }
-
-    // get pager object from service
-    this.pager = this.pagerService.getPager(this.drains.length, page, 50);
-
-    // get current page of drains
-    this.pagedDrains = this.drains.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    this.cleanDrains(page);
   } 
   ngOnInit(): void {
-    this.cleanDrains();
+    //this.cleanDrains();
+    this.setPage(1);
     this.sErr = false; 
     
   }

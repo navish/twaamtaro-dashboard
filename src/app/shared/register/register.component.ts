@@ -61,7 +61,8 @@ export class RegisterComponent implements OnInit {
         this.ngProgress.done();
       
         //Redirect after successful registration
-        this.sessionService.setCurrentUser(res);
+        this.sessionService.setCurrentUser(res.users);
+        this.sessionService.setCurrentLoggedUser(res.users);
         location.reload();
 
       }, error => {

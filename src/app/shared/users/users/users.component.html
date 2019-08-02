@@ -1,6 +1,6 @@
 <div class="content-wrapper"  >
   <div class="content">
-      <h2 class=" w3-center"> {{ 'citizens'| translate}}</h2>   
+      <h2 class=" w3-center"> {{ 'users'| translate}}</h2>   
     <div class="w3-padding">
        
       <header class="w3-container w3-center w3-theme-l5">
@@ -81,6 +81,12 @@
             </table>
           </div>
         </div>
+    </div>
+
+    <!-- Users Lists -->
+    <div *ngIf="authService.isLoggedIn()">
+      <users-list></users-list>
+      
     </div>
 <!--hr style = "width:100%; border-color:#c8c8c8; border-width:1px; ">
     <div class="w3-row">

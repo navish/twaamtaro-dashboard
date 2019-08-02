@@ -1,8 +1,7 @@
-<div class="content-wrapper"  >
-    <div class="content">
+<div class="content">
     <div class="box w3-card-2 w3-border w3-border-teal" >
       <div class="box-header with-border">
-        <h3 class=" w3-center"> {{ title }}</h3>   </div>
+        <h3 class=" w3-center">{{'citizens'| translate}}</h3>   </div>
       <!-- /.box-header -->
       <div class="box-body w3-padding">
         <div class="row">
@@ -11,16 +10,16 @@
           <table class="w3-table w3-hoverable w3-responsive w3-white" border="0">
             <thead>
             <tr class="w3-light-grey w3-border-bottom" >
-              <th>NAME</th>
-              <th>ADDRESS</th>
-              <th>NUMBER</th>
+              <th>{{'name'| translate}}</th>
+              <th class="w3-center">{{'address' | translate}}</th>
+              <th class="w3-center">{{'municipal' | translate}}</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let user of (users)">
+            <tr *ngFor="let user of (filteredUsers)">
               <td>{{user.first_name}} {{user.last_name}} </td>
-              <td>{{user.organization}}</td>
-              <td>{{user.sms_number}}</td>
+              <td class="w3-center">{{user.street.street_name}}, {{user.ward.ward_name}}</td>
+              <td class="w3-center">{{user.municipal.municipal_name}}</td>
             </tr>
             
             </tbody>
@@ -29,6 +28,4 @@
     </div>
   </div>
   <!-- ./box-body -->
-  </div>
-  <!-- /.box -->
-  </div> 
+</div>

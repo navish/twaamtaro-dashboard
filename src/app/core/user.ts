@@ -2,6 +2,13 @@ export interface IsAdmin { admin: boolean; }
 export interface Street { street_id: number; }
 export interface Role { roles: any; }
 
+export class NeedHelpUrlParam {
+  column: string;
+  key: string;
+}
+
+
+
 export class User{
     constructor(
         public id: string,

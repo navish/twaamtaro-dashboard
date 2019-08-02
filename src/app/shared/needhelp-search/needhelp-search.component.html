@@ -1,9 +1,82 @@
-<div class="w3-row-padding" style="padding-top:5px">
-  <br>
-    <label>{{'needhelp_search' | translate}}</label>
-    <input  ngui-auto-complete class="w3-input w3-select"
-    placeholder="{{'search_placeholder' | translate}}"
-      [(ngModel)]="selected" 
-      [source]="observableSource.bind(this)"  
-      list-formatter="street_name"  (ngModelChange)="search($event)"/>
-</div>
+<!-- <form id="searchDrainForm">
+    <div >
+      <div>
+        <input type="text" name="q"  placeholder="{{'search'| translate}}" [(ngModel)]="q.value" required #qControl="ngModel"   (keyup)="autoComplete(q.value)" autocomplete="off">
+        <ul *ngIf="show_results" class="results">
+          <li *ngIf="category_bool"><h4>Need Help request categories</h4>
+            <ul>
+              <li *ngFor="let category of autoCompleteData.categories" (click)="passSearchKey('category_name', category.category_name )">
+                {{category.category_name}}
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="drains_bool"><h4>Drain Addresses</h4>
+            <ul>
+              <li *ngFor="let drain of autoCompleteData.drains" (click)="passSearchKey('address', drain.address )">
+                {{drain.address}}
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="street_bool"><h4>Streets</h4>
+            <ul>
+              <li *ngFor="let street of autoCompleteData.streets" (click)="passSearchKey('street_name', street.street_name )">
+                {{street.street_name}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form> -->
+
+  <!-- <section class="main">
+    <form class="search" >
+      <input type="text" name="q"  placeholder="{{'search'| translate}}" [(ngModel)]="q.value" required #qControl="ngModel"   (keyup)="autoComplete(q.value)" autocomplete="off">
+      <ul  class="results" *ngIf="show_results">
+          <li *ngIf="category_bool"><h4>Need Help request categories</h4>
+            <ul>
+              <li *ngFor="let category of autoCompleteData.categories" (click)="passSearchKey('category_name', category.category_name )">
+                {{category.category_name}}
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="drains_bool"><h4>Drain Addresses</h4>
+            <ul>
+              <li *ngFor="let drain of autoCompleteData.drains" (click)="passSearchKey('address', drain.address )">
+                {{drain.address}}
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="street_bool"><h4>Streets</h4>
+            <ul>
+              <li *ngFor="let street of autoCompleteData.streets" (click)="passSearchKey('street_name', street.street_name )">
+                {{street.street_name}}
+              </li>
+            </ul>
+          </li>        
+      </ul>
+    </form>
+ </section> -->
+
+
+ <section class="main">
+    <form class="search" >
+      <input type="text" name="q"  placeholder="{{'search'| translate}}" [(ngModel)]="q.value" required #qControl="ngModel"   (keyup)="autoComplete(q.value)" autocomplete="off">
+      <ul  [ngClass]="{'results': 'show_results' }" *ngIf="show_results" >
+          <li *ngIf="category_bool"><h4>Need Help request categories</h4></li>
+          <li *ngFor="let category of autoCompleteData.categories" (click)="passSearchKey('category_name', category.category_name )">
+              {{category.category_name}}
+            </li>
+          <li *ngIf="drains_bool"><h4>Drain Addresses</h4> </li>
+          <li *ngFor="let drain of autoCompleteData.drains" (click)="passSearchKey('address', drain.address )">
+              {{drain.address}}
+            </li>
+          <li *ngIf="street_bool"><h4>Streets</h4> </li>
+          <li *ngFor="let street of autoCompleteData.streets" (click)="passSearchKey('street_name', street.street_name )">
+              {{street.street_name}}
+            </li>        
+      </ul>
+    </form>
+ </section>
+
+

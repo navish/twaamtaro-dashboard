@@ -10,6 +10,8 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/filter';
 
 import { Drain } from './../shared/drains/drain';
+import {NeedHelpUrlParam} from "./user";
+import { of } from 'rxjs/observable/of';
 
 
 @Injectable()
@@ -24,61 +26,76 @@ export class DrainsService {
   ranksData: any;
   helpDrains: any;
   err: any;
-  
-  getDrains(): Observable<any[]> {
-    return this.http.get(this.urlService.apiUrl+this.urlService.drainsUrl)
-      .map((response: Response) => response.json().drains)
+
+
+  // gets all drains
+  getDrains(page?: number, count?: number): Observable<any> {
+    return this.http.get(this.urlService.allDrains + this.drainUrlParams(page,count))
+      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
-  getCleanDrains():Observable<any[]>  {
-    return this.http.get(this.urlService.apiUrl+this.urlService.cleanDrainsUrl)
-      .map((response: Response) =>  response.json().drains)
+
+  // gets all unknown drains
+  getUnknownDrains(page?: number, count?: number):Observable<any> {
+    return this.http.get(this.urlService.unkonwnDrains + this.drainUrlParams(page,count))
+      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
-  getDirtyDrains(): Observable<any[]> {
-    return this.http.get(this.urlService.apiUrl+this.urlService.dirtyDrainsUrl)
-      .map((response: Response) => response.json().drains)
+
+  // gets all clean drains
+  getCleanDrains(page?: number, count?: number):Observable<any>  {
+    return this.http.get(this.urlService.cleanDrains + this.drainUrlParams(page,count))
+      .map((response: Response) =>  response.json())
+      .catch(this.errorHandler);
+  }
+
+ // gets all unclean drains
+  getDirtyDrains(page?: number, count?: number): Observable<any> {
+    return this.http.get(this.urlService.uncleanDrains + this.drainUrlParams(page,count))
+      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
   getHelpDetails(): any {
-    return this.http.get(this.urlService.apiUrl+this.urlService.helpDetailsUrl, this.options)
+    return this.http.get(this.urlService.needHelps, this.options)
       .map((response: Response) => {
         this.helpDrains = response.json();
       })
       .catch(this.errorHandler);
   }
   getHelpDrains(): Observable<any[]> {
-    return this.http.get(this.urlService.apiUrl+this.urlService.helpDrainsUrl, this.options)
+    return this.http.get(this.urlService.needHelpDrains, this.options)
       .map((response: Response) => response.json().drains)
       .catch(this.errorHandler);
   }
 
   getFilteredHelp(status?) {
     if (status == null ) {
-      
+
       return this.getHelpDetails();
     }
     else {
-     
+
       return this.getHelpDetails()
         .map(drains => drains.find(drain => drain.status === status))
         .catch(this.errorHandler);
     }
 
   }
-  getUnknownDrains():Observable<any[]> {
-    return this.http.get(this.urlService.apiUrl+this.urlService.unknownDrainsUrl)
-      .map((response: Response) => response.json().drains)
-      .catch(this.errorHandler);
-  }
+
+    // appends url parameters for pagination of drains
+    drainUrlParams(page: number, count: number): string{
+      return `&&page=${page}&&count=${count}`
+    }
+
+
   getDrainData():Observable<any> {
-    return this.http.get(this.urlService.apiUrl + this.urlService.drainDataUrl)
+    return this.http.get(this.urlService.dataForDrains)
       .map((response: Response) => this.drainData = response.json() )
       .catch(this.errorHandler);
 
   }
   getRanksData():Observable<any[]> {
-    return this.http.get(this.urlService.apiUrl +this.urlService.ranksDataUrl)
+    return this.http.get(this.urlService.drainRanks)
       .map((response: Response) => {
         this.ranksData = response.json().ranking;
       })
@@ -95,7 +112,7 @@ export class DrainsService {
 
   status(roleRequest): any {
 
-    return this.http.post(this.urlService.apiUrl+this.urlService.verifyUrl, roleRequest, {headers: this.headers})
+    return this.http.post(this.urlService.verifyUser, roleRequest, {headers: this.headers})
       .map(res => {
 
       })
@@ -103,27 +120,45 @@ export class DrainsService {
   }
 
   update_status(data): any {
-
-    return this.http.post(this.urlService.apiUrl+this.urlService.status, JSON.stringify(data), {headers: this.headersCustom})
+    return this.http.post(this.urlService.needHelpStatus, JSON.stringify(data), {headers: this.headersCustom})
       .map(res => { res.json();
-
       })
       .catch(this.errorHandler);
   }
 
-  searchNeedHelps(data): Observable<any[]>{
+  filterNeedHelps(data): Observable<any[]>{
 
-    return this.http.post(this.urlService.apiUrl+this.urlService.search, JSON.stringify(data), {headers: this.headersCustom})
+    return this.http.post(this.urlService.needHelpfilter, JSON.stringify(data), {headers: this.headersCustom})
       .map(res => res.json())
       .catch(this.errorHandler);
   }
+
+  searchNeedHelps(data: NeedHelpUrlParam): Observable<any[]>{
+    let urlParams = `/?column=${data.column}&&key=${data.key}`
+    return this.http.get(this.urlService.needHelpSearch + urlParams)
+      .map(res => res.json())
+      .catch(this.errorHandler)
+  }
+
+  searchAutoComplete(q: any): Observable<any>{
+    if (!q.trim()) {
+      // if not search term, return empty hero array.
+      return of();
+    }
+    let urlParam = `/?q=${q}`;
+   return this.http.get(this.urlService.needHelpAutoComplete + urlParam)
+    .map( res => res.json())
+    .catch(this.errorHandler)
+  }
+
+
+
 
   filterDrains(data):any{
     //To be worked on after API updates.
   }
 
   errorHandler(error: Response) {
-    console.error(error);
     return Observable.throw(error || 'Sorry, something went wrong');
 
   }

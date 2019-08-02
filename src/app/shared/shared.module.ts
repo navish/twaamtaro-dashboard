@@ -1,3 +1,4 @@
+import { DataService } from './../core/data.service';
 
 import { CleanDrainComponent } from './drains/clean-drain/clean-drain.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -64,6 +65,7 @@ import { YearPickerComponent } from './year-picker/year-picker.component';
 import { DrainsSearchComponent } from './drains/drains-search/drains-search.component';
 import { NeedhelpSearchComponent } from './needhelp-search/needhelp-search.component';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { UrlService} from '../core/url.service'
 
 @NgModule({
   imports: [
@@ -129,6 +131,8 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     TranslateService,
     UserService,
     DatePipe,
+    UrlService,
+    DataService
   ],
 })
 

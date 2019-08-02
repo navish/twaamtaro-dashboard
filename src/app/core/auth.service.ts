@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import {UrlService } from './url.service';
 
 import {Router} from "@angular/router";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthService {
-
-  // private loginUrl = `http://twaamtaro.org/api/v1/sessions/`;
-  private loginUrl = `http://twaamtaro.org/api/v1/sessions/`
 
   private headers = new Headers({'Content-Type': 'application/json'});
   loggedIn: any;
@@ -21,10 +19,11 @@ export class AuthService {
   constructor(
         private http: Http,
         private router: Router,
+        private _urlService: UrlService
     ) { }
 
     login(user): any {
-        return this.http.post(this.loginUrl, { user }, { headers: this.headers })
+        return this.http.post(this._urlService.loginUrl, { user }, { headers: this.headers })
             .map(res => {
                 this.loginRes = true;
                 this.userdata = res.json().users;

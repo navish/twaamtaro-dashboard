@@ -44,7 +44,7 @@ import { AuthGuard } from "./../../core/auth.guard";
           { path: 'unknown-drains', component: UnknownDrainsComponent },
           { path: 'user-details/:id', component: UserDetailComponent },
           { path: 'users', component: UsersComponent },
-          { path: 'users-list/:street', component: UsersListComponent },
+          { path: 'users-list', component: UsersListComponent },
           { path: 'verify', component: VerifyLeaderComponent }, 
           { path: '*', component: NotFoundComponent },
         ] ,    

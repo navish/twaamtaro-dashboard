@@ -1,6 +1,8 @@
 import * as _ from 'underscore';
  
 export class PagerService {
+    public drainCount: number = 20;
+
     getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {
         // calculate total pages
         let totalPages = Math.ceil(totalItems / pageSize);

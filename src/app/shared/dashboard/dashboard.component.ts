@@ -9,7 +9,10 @@ declare var AdminLTE: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class DashboardComponent implements OnInit {
   draindata: any;
@@ -26,7 +29,7 @@ constructor(
   private _translate: TranslateService
 ) { }
 
-  drainData(): void {
+  drainData(): any {
     this.ngProgress.start();
     this.drainService
         .getDrainData()
@@ -44,7 +47,7 @@ constructor(
           options: {
                 'title': this._translate.instant('title_dashboard'),
                 pieHole: 0.3,
-                height: 500,
+                height: this.graphDim(),
                 colors:['#5cb85c','#eea236','#6495ed']
                 },
         };
@@ -59,17 +62,37 @@ constructor(
           options: {
                 'title': this._translate.instant('title_drains'),
                 pieHole: 0.3,
-                height: 500,
+                height: this.graphDim(),
                 colors:['#964f8f','grey']
                 },
         };
       });
     this.ngProgress.done();
   }
+  //Listen for window.resize
+  onResize($event) {
+    window.addEventListener('resize', this.drainData());
+    this.graphDim()
+  }
 
+  //Change graph height based on window width 
+  graphDim(): any{
+    let w = window.innerWidth;
+    let h;
+    if (w >= 1024) {
+      h = 500
+    } else if(w >= 600) {
+      h = 350
+    } else if(w < 600){
+      h = 320;
+    } else if(w <= 420){
+      h = 220;
+    }
+    return h;
+  }
+  
   refreshText() {
     this.drainData();
-
   }
 
   subscribeToLangChanged() {

@@ -23,7 +23,7 @@ export class UserService {
   regStatus: any;
 
   getUsers(): any {
-    return this.http.get(this.urlService.apiUrl+this.urlService.usersUrl,
+    return this.http.get(this.urlService.allUsers,
       {headers: this.headers})
     .map((response: Response) => response.json().users)
     .catch(this.errorHandler);
@@ -36,26 +36,26 @@ export class UserService {
   }
 
   createUser(user) {
-    return this.http.post(this.urlService.apiUrl+this.urlService.registerUserUrl, {user})
+    return this.http.post(this.urlService.registerUser, {user})
 
     .map((response: Response) => this.regRes = response.json())
     .catch(this.errorHandler);
   }
 
   alertLeader(street_id): any {
-    return this.http.post(this.urlService.apiUrl+this.urlService.alertUrl, {street_id}, {headers: this.headers})
+    return this.http.post(this.urlService.alertUser, {street_id}, {headers: this.headers})
     .map(res =>  res.json())
     .catch(this.errorHandler);
   }
 
   getLeaderRequests(data:any): any {
-    return this.http.post(this.urlService.apiUrl+ this.urlService.leaderRequestsUrl,JSON.stringify(data),
+    return this.http.post(this.urlService.roleRequests,JSON.stringify(data),
       {headers: this.headers})
     .map(res =>  res.json().leaders)
     .catch(this.errorHandler);
   }
  verifyLeader(data: any) : any {
-  return this.http.post(this.urlService.apiUrl + this.urlService.verifyUrl, JSON.stringify(data), {headers: this.headers})
+  return this.http.post(this.urlService.verifyUser, JSON.stringify(data), {headers: this.headers})
     .map(res => {
       res.json().data as any;
       }
@@ -63,7 +63,7 @@ export class UserService {
     .catch(this.errorHandler);
 }
 denyLeader(denyRequest: any) : Observable <void> {
-    return this.http.post(this.urlService.apiUrl + this.urlService.denyUrl,JSON.stringify(denyRequest), {headers: this.headers})
+    return this.http.post(this.urlService.verifyUser,JSON.stringify(denyRequest), {headers: this.headers})
       .map(res => { res.json().data as any;
       })
       .catch(this.errorHandler);

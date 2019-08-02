@@ -44,3 +44,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# ignoring url.service.ts file
+# allows freedom of choosing between
+# production and development API
+/src/app/core/url.service.ts
+

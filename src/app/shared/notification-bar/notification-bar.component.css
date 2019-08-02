@@ -8,6 +8,11 @@
     width:20%;
 }
 
+@media (max-width: 1100px){
+    div#bar a div{
+        height: 105px;
+    }
+}
 @media only screen and (max-width: 767px) {
     .notificaition-wrapper, {
         margin-left: 0px;

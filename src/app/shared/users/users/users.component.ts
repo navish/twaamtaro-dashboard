@@ -31,7 +31,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
   users: User[];
   userCount: any;
   usersCount: any = 0;
+  volunteersCount: any = 0;
   wardLeadersCount: any = 0;
+  municipalLeadersCount: any = 0;
   veos = [];
   weos = [];
 
@@ -99,18 +101,29 @@ export class UsersComponent implements OnInit, AfterViewInit {
       this.getWeos(this.users);
 
     //Get Number of registered users based on roles
-        for (var i = 0; i < this.users.length; i++) {
-          this.getStreetName(user[i].street_id);
-          if (this.userService.checkRole(this.users[i].roles, '3')) {
-              this.wardLeadersCount++;
-            }
-          else if (this.userService.checkRole(this.users[i].roles, '2')){
-              this.streetLeadersCount++;
-            }
-          else if(this.userService.checkRole(this.users[i].roles, '1')){
-              this.usersCount++;
-            }
-          }
+    for (var i = 0; i < this.users.length; i++) {
+      this.getStreetName(user[i].street_id);
+      
+      if (this.userService.checkRole(this.users[i].roles, '5')){
+          this.volunteersCount++;  
+        }
+      else if (this.userService.checkRole(this.users[i].roles, '4')){
+          this.municipalLeadersCount++;  
+        }
+      else if (this.userService.checkRole(this.users[i].roles, '3')) {
+          this.wardLeadersCount++;
+        }
+      else if (this.userService.checkRole(this.users[i].roles, '2')){
+          this.streetLeadersCount++;
+        }
+      else if(this.userService.checkRole(this.users[i].roles, '1')){
+          this.usersCount++;
+        }
+      }
+
+    // TODO remove this once the dashboard is live
+    this.usersCount = this.users.length - (this.wardLeadersCount + 
+      this.streetLeadersCount + this.municipalLeadersCount + this.volunteersCount)
     
     //Get the number of citizens in each street
           this.treeChart =  {

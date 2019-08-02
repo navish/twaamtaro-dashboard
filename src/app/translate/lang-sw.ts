@@ -12,6 +12,7 @@ export const LANG_SW_TRANS = {
   'dirty': 'Michafu',
   'unknown': 'Haijulikani',
   'citizens': 'Wananchi',
+  'users': 'Watumiaji',
   'not_adopted': 'Mitaro isiyo na watu',
   'need_help_report': 'Ripoti ya mitaro inayohitaji msaada',
   'adopted': "Mitaro iliyotwaliwa",
@@ -79,7 +80,7 @@ export const LANG_SW_TRANS = {
   'drain_filter':'Mgawanyo wa Mitaro',
   'choose_address': 'Chagua Eneo/Mtaa',
   'leader': 'Viongozi wa mtaa',
-  'registered': 'Wananchi waliosajiliwa',
+  'registered': 'Watumiaji waliosajiliwa',
   'ward_leader':'Viongozi wa Kata',
   'citizen_population': 'Mgawanyiko wa watu',
 

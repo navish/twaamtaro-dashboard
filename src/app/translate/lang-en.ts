@@ -13,14 +13,14 @@ export const LANG_EN_TRANS = {
   'clean':'Clean Drains',
   'all': 'All Drains',
   'dirty': 'Dirty Drains',
-  'unknown': 'Unknown Drains',
+  'unknown': 'Unknown',
   'citizens': 'Citizens',
   'need_help_report': 'Status Report of drains that need help',
   'need_help': 'Need Help',
   'adopted': "Adopted drains",
   'not_adopted': 'Not adopted',
   'others': 'Others',
-
+  'users': 'Users',
 
   /*need help transilation*/
   'need': 'Drains that need help',

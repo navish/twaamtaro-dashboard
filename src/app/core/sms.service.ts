@@ -11,8 +11,6 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class SmsService {
-    userToken = "gM7TM10gfRFZBlkNNcqg9A"; 
-    userEmail="example-2@twaamtaro.org";
     private headers = new Headers({'Authorization': 'Token token="gM7TM10gfRFZBlkNNcqg9A", email="example-2@twaamtaro.org"', 'Content-Type': ' ' });
 
     constructor(
@@ -21,12 +19,12 @@ export class SmsService {
     ) { }  
     
     alertLeader(street_id): any {
-        return this.http.post(this.urlService.apiUrl+this.urlService.alertUrl, {street_id}, {headers: this.headers})
+        return this.http.post(this.urlService.alertUser, {street_id}, {headers: this.headers})
             .map(res =>  res.json())
             .catch(this.errorHandler);
         }
     sendMassMsg(msg): any {
-        return this.http.post(this.urlService.apiUrl+this.urlService.massMessagingUrl, {msg}, {headers: this.headers})
+        return this.http.post(this.urlService.massMessaging, {msg}, {headers: this.headers})
             .map(res =>  res.json())
             .catch(this.errorHandler);
         }

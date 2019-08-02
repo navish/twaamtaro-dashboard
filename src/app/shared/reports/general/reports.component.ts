@@ -8,7 +8,9 @@ import { TranslateService } from "../../../translate/translate.service";
 @Component({
   selector: 'reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class ReportComponent implements OnInit, AfterViewInit{
   title = 'Cleanness Reports';
@@ -44,7 +46,7 @@ export class ReportComponent implements OnInit, AfterViewInit{
 
   }
 
-  buildReport() {
+  buildReport(): any {
     this.reportBuild = true;
     if(this.streetname.name == "all") {
       var clean = 0;
@@ -73,8 +75,7 @@ export class ReportComponent implements OnInit, AfterViewInit{
         options: {
           'title': this.translateService.instant('general-report-all')+ this.ward.name,
           pieHole: 0.3,
-          width: 800,
-          height: 500,
+          height: this.graphDim(),
           colors:['#5cb85c','#eea236','#6495ed']
         },
       };
@@ -95,8 +96,7 @@ export class ReportComponent implements OnInit, AfterViewInit{
           options: {
             'title': this.translateService.instant('general-report-street')+ street.street.street_name,
             pieHole: 0.3,
-            width: 800,
-            height: 500,
+            height: this.graphDim(),
             colors:['#5cb85c','#eea236','#6495ed'],
             chartArea: {
               height: 'auto',
@@ -136,6 +136,27 @@ export class ReportComponent implements OnInit, AfterViewInit{
     window.print();
   }
 
+  //Listen for window.resize
+  onResize($event) {
+    window.addEventListener('resize', this.buildReport());
+    this.graphDim()
+  }
+
+  //Change graph height based on window width 
+  graphDim(): any{
+    let w = window.innerWidth;
+    let h;
+    if (w >= 1024) {
+      h = 500
+    } else if(w >= 600) {
+      h = 350
+    } else if(w < 600){
+      h = 320;
+    } else if(w <= 420){
+      h = 220;
+    }
+    return h;
+  }
   /*Translations */
   refreshText() {
     this.buildReport()

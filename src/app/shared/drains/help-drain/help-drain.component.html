@@ -19,17 +19,16 @@
 	<div class="box w3-card-2 w3-border" >
 		<div class="box-header with-border">
 			<h3 class=" w3-center">{{ 'need_help_report' |translate }}</h3>
-
 		</div>
+
+	
+				<app-needhelp-search></app-needhelp-search>
 
 	<!--Desktop Filters -->
 	<div class="w3-center w3-row">
 		<!-- <button class="w3-btn w3-black w3-left" (click)="showFilters()">{{'filter' | translate}}</button> -->
       
-        <div class="w3-col m9"><app-regional-filters [disableWardSelect] ="disableWardSelect" [disableStreetSelect] ="disableStreetSelect" (selectValueChaged)="needHelpFilter($event)"></app-regional-filters></div>
-				<div class="w3-col m3">
-					<app-needhelp-search (searchValueChanged)="needHelpSearch($event)"></app-needhelp-search>
-				</div>
+        <div class="w3-col m12"><app-regional-filters [disableWardSelect] ="disableWardSelect" [disableStreetSelect] ="disableStreetSelect" (selectValueChaged)="needHelpFilter($event)"></app-regional-filters></div>
 		</div>
 		<div class="w3-row w3-center">
 			<div class="w3-col">
